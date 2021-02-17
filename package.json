@@ -1,0 +1,26 @@
+{
+  "name": "sahibi.com",
+  "version": "1.0.0",
+  "description": "This is going to be my first big Project with Authentication, Authorization, CRUD, operations envolved.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geldimyrat1989/sahibi.com.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geldimyrat1989/sahibi.com/issues"
+  },
+  "homepage": "https://github.com/geldimyrat1989/sahibi.com#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.11.16"
+  }
+}
