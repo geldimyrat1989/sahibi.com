@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+
+<body>
+    <h1>Edit the Product!</h1>
+    <form action="/products/<%= product._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" value="<%= product.title %> " name="product[title]" id="title">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <!-- to hit exact name in database we have enter name[property]  -->
+            <input value="<%= product.location %> "" type=" text" name="product[location]" id="location">
+        </div>
+        <button>Update Product</button>
+        <a href="/products/<%= product._id %> ">Back</a>
+</body>
+
+</html>

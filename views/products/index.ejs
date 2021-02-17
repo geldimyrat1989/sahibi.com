@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+
+<body>
+    <h1>These are all Products!</h1>
+    <ul>
+        <!-- we will loop over with ejs all of our product to render dynamically -->
+        <% for (let prd of products){ %>
+            <li><a href="/products/<%= prd._id %>">
+                    <%= prd.location %>
+                        <ul>
+                            <li>
+                                <%= prd.title %>
+
+                            </li>
+
+                        </ul>
+                </a></li>
+            <% } %>
+    </ul>
+    <a href="/products/new">Make new Product</a>
+</body>
+
+</html>
