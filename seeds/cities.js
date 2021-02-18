@@ -1,7 +1,7 @@
 module.exports = [
     {
         city: 'Istanbul',
-        state: 'Ist'
+        state: 'Ist',
     },
     {
         city: 'Izmir',
@@ -9,10 +9,10 @@ module.exports = [
     },
     {
         city: 'Bodrum',
-        state: 'Izm'
+        state: 'Izm',
     },
     {
         city: 'Antalya',
-        state: 'Ant'
+        state: 'Ant',
     }
 ]

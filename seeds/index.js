@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 //requesting cities from cities & description, product, img url file:
 const cities = require('./cities');
-const { descriptors, prodcut } = require('./seedHelpers');
+const prodcuts = require('./seedHelpers');
 //and we need to require our model from:
 const Product = require('../models/products');
 
@@ -31,10 +31,17 @@ const seedDB = async () =>
     //loop over our cities randomly and combine with our sample array:
     for (let i = 0; i < 5; i++)
     {
+        //here we will make random prices for our products:
+        const price = Math.floor(Math.random() * 150) + 10
         const random5 = Math.floor(Math.random() * 4);
         //here we combining our randomly number and array details together:
         const prd = new Product({
             location: `${ cities[random5].city }, ${ cities[random5].state }`,
+            title: `${ prodcuts[random5].name }`,
+            img: `${ prodcuts[random5].img }`,
+            description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati dolorem ut, earum cum labore quasi nulla exercitationem repellat reiciendis aut quibusdam. Sequi impedit ullam est porro, quae distinctio temporibus laborum.',
+            price
+
         })
         //then await everything and save our fake product data:
         await prd.save();

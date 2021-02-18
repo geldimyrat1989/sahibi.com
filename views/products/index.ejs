@@ -1,31 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-</head>
+    <!-- we will loop over with ejs all of our product to render dynamically -->
 
-<body>
-    <h1>These are all Products!</h1>
-    <ul>
-        <!-- we will loop over with ejs all of our product to render dynamically -->
-        <% for (let prd of products){ %>
-            <li><a href="/products/<%= prd._id %>">
-                    <%= prd.location %>
-                        <ul>
-                            <li>
-                                <%= prd.title %>
+    <% for (let prd of products){ %>
+        <div class="container">
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-fluid" src="<%= prd.img %>" alt="">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Title: <%= prd.title %>
+                            </h5>
+                            <h6 class="card-title">
+                                Price: $<%= prd.price %>
 
-                            </li>
+                            </h6>
+                            <p>
+                                <%= prd.description %>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Location: <%= prd.location %>
 
-                        </ul>
-                </a></li>
-            <% } %>
-    </ul>
-    <a href="/products/new">Make new Product</a>
-</body>
+                                </small>
+                            </p>
+                            <a class="btn btn-primary" href="/products/<%= prd._id %>">View</a>
 
-</html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>

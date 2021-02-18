@@ -1,27 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit</title>
-</head>
-
-<body>
-    <h1>Edit the Product!</h1>
-    <form action="/products/<%= product._id %>?_method=PUT" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" value="<%= product.title %> " name="product[title]" id="title">
+    <div class="row mt-5">
+        <h1 class="text-center">Edıt Product</h1>
+        <div class="col-6 offset-3">
+            <form action="/products/<%= product._id %>?_method=PUT" method="POST">
+                <div>
+                    <label class="form-label" for="title">Title</label>
+                    <input value="<%= product.title %> " class="form-control mb-3" type="text" name="product[title]"
+                        id="title">
+                </div>
+                <div>
+                    <label class="form-label" for="location">Location</label>
+                    <!-- to hit exact name in database we have enter name[property]  -->
+                    <input value="<%= product.location %> " class="form-control mb-3" type="text"
+                        name="product[location]" id="location">
+                </div>
+                <div>
+                    <label class="form-label" for="img">Image url</label>
+                    <!-- to hit exact name in database we have enter name[property]  -->
+                    <input value="<%= product.img %> " class="form-control mb-3" type="text" name="product[img]"
+                        id="img">
+                </div>
+                <div>
+                    <label class="form-label" for="price">Price</label>
+                    <!-- to hit exact name in database we have enter name[property]  -->
+                    <input value="<%= product.price %>" class="form-control mb-3" type="number" name="product[price]"
+                        id="price">
+                </div>
+                <button class="btn btn-primary">Update</button>
+                <a class="btn btn-success" href="/products/<%= product._id %> ">Back</a>
+            </form>
         </div>
-        <div>
-            <label for="location">Location</label>
-            <!-- to hit exact name in database we have enter name[property]  -->
-            <input value="<%= product.location %> "" type=" text" name="product[location]" id="location">
-        </div>
-        <button>Update Product</button>
-        <a href="/products/<%= product._id %> ">Back</a>
-</body>
-
-</html>
+    </div>

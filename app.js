@@ -4,6 +4,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 // now here we importing the schema from:
 const Product = require('./models/products');
+//here I will require ejs-mate:
+const ejsMate = require('ejs-mate');
 
 //connecting to mongoDB locally:
 mongoose.connect('mongodb://localhost:27017/sahibi', {
@@ -25,6 +27,8 @@ db.once('open', () =>
 //here we execute express and save it to a variable:
 const app = express();
 
+//here we have to set engine to ejs-mate as well:
+app.engine('ejs', ejsMate);
 //we also have to set view engine to ejs:
 app.set('view engine', 'ejs');
 //and set an absolute path for joining our views directory pathes:
