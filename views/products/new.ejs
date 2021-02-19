@@ -2,20 +2,29 @@
     <div class="row mt-5">
         <h1 class="text-center">New Product</h1>
         <div class="col-6 offset-3">
-            <form action="/products" method="post">
+            <form class="validated-form" action="/products" method="post" novalidate>
                 <div>
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control mb-3" type="text" name="product[title]" id="title">
+                    <input class="form-control mb-3" type="text" name="product[title]" id="title" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
                 </div>
                 <div>
                     <label class="form-label" for="location">Location</label>
                     <!-- to hit exact name in database we have enter name[property]  -->
-                    <input class="form-control mb-3" type="text" name="product[location]" id="location">
+                    <input class="form-control mb-3" type="text" name="product[location]" id="location" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
                 </div>
                 <div>
                     <label class="form-label" for="img">Image url</label>
                     <!-- to hit exact name in database we have enter name[property]  -->
-                    <input class="form-control mb-3" type="text" name="product[img]" id="img">
+                    <input class="form-control mb-3" type="text" name="product[img]" id="img" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
                 </div>
                 <div class="mb-3">
 
@@ -23,14 +32,20 @@
                     <div class=" input-group mb-3">
                         <span class="input-group-text">$</span>
                         <input type="text" class="form-control" id="price" placeholder="0.00"
-                            name="product[price] aria-label=" Amount (to the nearest dollar)">
+                            name="product[price] aria-label=" Amount (to the nearest dollar) required>
+                        <div class="valid-feedback">
+                            Looks Good!
+                        </div>
                     </div>
                 </div>
                 <div>
                     <label class="form-label" for="description">Description</label>
                     <!-- to hit exact name in database we have enter name[property]  -->
                     <textarea class="form-control mb-3" type="text" cols="30" rows="2" name="product[description]"
-                        id="description"></textarea>
+                        id="description" required></textarea>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
                 </div>
 
                 <button class="btn btn-primary">Add Product</button>
