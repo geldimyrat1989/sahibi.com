@@ -2,7 +2,7 @@ const express = require('express');
 const methodOverride = require('method-override');
 const path = require('path');
 //here we require our joi schema:
-const { productSchema } = require('./schemas');
+const { productSchema, reviewSchema } = require('./schemas.js');
 const mongoose = require('mongoose');
 // now here we importing the schema from:
 const Product = require('./models/products');
@@ -12,7 +12,8 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 //and our function for catching async errors:
 const catchAsync = require('./utils/catchAsync');
-
+//here we also need to import review schema:
+const Review = require('./models/review');
 
 
 
@@ -66,6 +67,22 @@ const validateProduct = (req, res, next) =>
     }
 }
 
+//here same as at the top validator we also have to validate review form for validity with joi package:
+const validateReview = (req, res, next) =>
+{
+    //same procedure:
+    const { error } = reviewSchema.validate(req.body);
+    if (error)
+    {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else
+    {
+        next();
+    }
+}
+
+
 //checking if we are connected to home page:
 app.get('/', (req, res) =>
 {
@@ -101,7 +118,9 @@ app.post('/products', validateProduct, catchAsync(async (req, res) =>
 app.get('/products/:id', catchAsync(async (req, res) =>
 {
     //finding by id of particular product in requesting in params object database:
-    const product = await Product.findById(req.params.id);
+    //after structuring reviews we have to populate the reviews object to render them:
+    const product = await Product.findById(req.params.id).populate('reviews');
+    console.log(product)
     //and then rendering the show page with id of particular product:
     res.render('products/show', { product });
 }));
@@ -136,6 +155,34 @@ app.delete('/products/:id', catchAsync(async (req, res) =>
     //then redirect to index page:
     res.redirect('/products');
 }));
+
+//now we have set route to post our reviws:
+app.post('/products/:id/reviews', validateReview, catchAsync(async (req, res) =>
+{
+    // res.send('you made it!')
+    const product = await Product.findById(req.params.id);
+    const review = new Review(req.body.review);
+    // //here we will push to existing array of reviews our new review:
+    product.reviews.unshift(review);
+    // //and save both review and product:
+    await review.save();
+    await product.save();
+    // //then redirecting to the show page:
+    res.redirect(`/products/${ product._id }`);
+}))
+
+//now we are deleting our particular review:
+app.delete('/products/:id/reviews/:reviewId', catchAsync(async (req, res) =>
+{
+    const { id, reviewId } = req.params;
+    //after getting ids we use mongoDB's $pull method and delete all the reviews with particular product:
+    await Product.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    console.log(reviewId)
+    //and then redirect to show page:
+    res.redirect(`/products/${ id }`);
+}))
+// 
 
 //for simplicity of unknown get requests we will send:
 app.all('*', (req, res, next) =>
