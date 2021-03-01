@@ -10,11 +10,17 @@ const ExpressError = require('./utils/ExpressError');
 const flash = require('connect-flash');
 //and session:
 const session = require('express-session');
+//now that we installed we require our packages:
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
 
 
 //now after breaking up our routes seperately we have to require them:
-const products = require('./routes/products');
-const reviews = require('./routes/reviews');
+const productRoutes = require('./routes/products');
+const reviewRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/users');
 
 //connecting to mongoDB locally:
 mongoose.connect('mongodb://localhost:27017/sahibi', {
@@ -68,16 +74,28 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash())
 
+
+//these are all built in methods of passport-local package:
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
 app.use((req, res, next) =>
 {
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
 
 //we have to use our routes as a middleware:
-app.use('/products', products);
-app.use('/products/:id/reviews', reviews);
+app.use('/', userRoutes);
+app.use('/products', productRoutes);
+app.use('/products/:id/reviews', reviewRoutes);
 
 
 //checking if we are connected to home page:

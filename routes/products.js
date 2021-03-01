@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const { productSchema } = require('../schemas.js');
 const ExpressError = require('../utils/ExpressError');
 const Product = require('../models/products');
+const { isLoggedIn } = require('../middleware');
 
 
 //now here we define a function that will check for form validation:
@@ -33,7 +34,7 @@ router.get('/', catchAsync(async (req, res) =>
 }));
 
 //getting the page for creating new product:
-router.get('/new', (req, res) =>
+router.get('/new', isLoggedIn, (req, res) =>
 {
     //rendering the /new page:
     res.render('products/new');
@@ -41,7 +42,7 @@ router.get('/new', (req, res) =>
 
 
 
-router.post('/', validateProduct, catchAsync(async (req, res) =>
+router.post('/', isLoggedIn, validateProduct, catchAsync(async (req, res) =>
 {
     //getting the new product from req.body and saving it mongoDB:
     const product = new Product(req.body.product);
@@ -73,7 +74,7 @@ router.get('/:id', catchAsync(async (req, res) =>
 
 
 //now we heading to edit or update paricular product:
-router.get('/:id/edit', catchAsync(async (req, res) =>
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) =>
 {
     //we will find by id as usually:
     const product = await Product.findById(req.params.id);
@@ -89,7 +90,7 @@ router.get('/:id/edit', catchAsync(async (req, res) =>
     res.render('products/edit', { product });
 }));
 
-router.put('/:id', validateProduct, catchAsync(async (req, res) =>
+router.put('/:id', isLoggedIn, validateProduct, catchAsync(async (req, res) =>
 {
     //not forget to get id from req.params:
     const { id } = req.params;
@@ -104,7 +105,7 @@ router.put('/:id', validateProduct, catchAsync(async (req, res) =>
 
 
 //time to delete:((
-router.delete('/:id', catchAsync(async (req, res) =>
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) =>
 {
     //get id first:
     const { id } = req.params;
