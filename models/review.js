@@ -6,7 +6,11 @@ const Schema = mongoose.Schema;
 //here we defining schema for our reviews:
 const reviewSchema = new Schema({
     body: String,
-    rating: Number
+    rating: Number,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 //and export it to use:

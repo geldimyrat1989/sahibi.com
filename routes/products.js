@@ -28,6 +28,7 @@ router.post('/', isLoggedIn, validateProduct, catchAsync(async (req, res) =>
 {
     //getting the new product from req.body and saving it mongoDB:
     const product = new Product(req.body.product);
+    product.author = req.user._id
     await product.save();
     //after saving successfully we will flash a message:
     req.flash('success', 'Successfully made a new product!')
@@ -48,6 +49,7 @@ router.get('/:id', catchAsync(async (req, res) =>
             path: 'author'
         }
     }).populate('author');
+    console.log(product)
     if (!product)
     {
         //if we can't find product we will flash error mmessage and
