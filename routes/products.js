@@ -1,30 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const { productSchema } = require('../schemas.js');
-const ExpressError = require('../utils/ExpressError');
 const Product = require('../models/products');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, isAuthor, validateProduct } = require('../middleware');
 
 
-//now here we define a function that will check for form validation:
-//with help of npm joi package:
-const validateProduct = (req, res, next) =>
-{
-    //here we destructuring error from req.body
-    const { error } = productSchema.validate(req.body);
-    if (error)
-    {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else
-    {
-        next();
-    }
-}
 
-
-//now after imoring our catchAsync function we have to wrap all our async functions with it:
+//now after imorting our catchAsync function we have to wrap all our async functions with it:
 router.get('/', catchAsync(async (req, res) =>
 {
     //first find all products we have to await this:
@@ -59,7 +41,13 @@ router.get('/:id', catchAsync(async (req, res) =>
 {
     //finding by id of particular product in requesting in params object database:
     //after structuring reviews we have to populate the reviews object to render them:
-    const product = await Product.findById(req.params.id).populate('reviews');
+    //now here we destructuring and populating the author of particular review:
+    const product = await Product.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
     if (!product)
     {
         //if we can't find product we will flash error mmessage and
@@ -74,7 +62,7 @@ router.get('/:id', catchAsync(async (req, res) =>
 
 
 //now we heading to edit or update paricular product:
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) =>
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) =>
 {
     //we will find by id as usually:
     const product = await Product.findById(req.params.id);
@@ -90,7 +78,7 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) =>
     res.render('products/edit', { product });
 }));
 
-router.put('/:id', isLoggedIn, validateProduct, catchAsync(async (req, res) =>
+router.put('/:id', isLoggedIn, isAuthor, validateProduct, catchAsync(async (req, res) =>
 {
     //not forget to get id from req.params:
     const { id } = req.params;
@@ -105,7 +93,7 @@ router.put('/:id', isLoggedIn, validateProduct, catchAsync(async (req, res) =>
 
 
 //time to delete:((
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) =>
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) =>
 {
     //get id first:
     const { id } = req.params;

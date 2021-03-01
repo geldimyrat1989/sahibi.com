@@ -13,6 +13,10 @@ const ProductSchema = new Schema({
     description: String,
     location: String,
     img: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             //here we have to reference to object id that is related to particular product:

@@ -36,6 +36,7 @@ const seedDB = async () =>
         const random5 = Math.floor(Math.random() * 4);
         //here we combining our randomly number and array details together:
         const prd = new Product({
+            author: '603c7cc9485aee1bb0bc2974',
             location: `${ cities[random5].city }, ${ cities[random5].state }`,
             title: `${ prodcuts[random5].name }`,
             img: `${ prodcuts[random5].img }`,
