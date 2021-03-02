@@ -9,3 +9,5 @@ Then we npm i joi package to make requirement schema that will help us to check 
 They will help us do things a lot easier and more secure, they will hash password.
 7_step In this step we build Autherization. This way each user will get access only if they own a product.
 The user won't be able to delete or edit other users' products. And same with reviews the user will get access to delete only if the user owns particular review.
+8_step this step will be simple we just create controllers directory that will hold all the functionality of our routes directory, and we will give each logic a name so it will be really easy to understand them.
+and another thing in this step is we will make rating more fancy looking with staribility package. 
